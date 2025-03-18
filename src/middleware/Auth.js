@@ -1,6 +1,6 @@
 import { EMessage } from "../service/message.js";
 import { SendError, SendError400 } from "../service/response.js";
-import { VerityToken } from "../service/service.js";
+import { VerifyToken } from "../service/service.js";
 export const auth = async (req, res, next) => {
     try {
         const header = req.headers['authorization'];
@@ -9,7 +9,7 @@ export const auth = async (req, res, next) => {
         }
         const token = header.replace("Bearer ", "");
         if (!token) return SendError(res, 401, EMessage.Unanthorized);
-        const user = await VerityToken(token);
+        const user = await VerifyToken(token);
         req.user = user.uuid
         next()
     } catch (error) {

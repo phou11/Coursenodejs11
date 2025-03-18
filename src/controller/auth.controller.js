@@ -5,7 +5,7 @@ import { ValidateData } from "../service/validate.js";
 import CryptoJS from "crypto-js";
 import { v4 as uuidv4 } from "uuid";
 import { SECREATE_KEY } from "../config/globalkey.js";
-import { GenerateToken } from "../service/service.js";
+import { GenerateToken, VerifyRefreshToken } from "../service/service.js";
 export default class AuthController {
     static async getAll(req, res) {
         try {
@@ -74,9 +74,10 @@ export default class AuthController {
                     return SendError(res, 404, EMessage.IsMatch)
                 }
                 const update = "update user set password=? where uuid=?";
-                connected.query(update, [newPassword, result[0]['uuid']], (error, result) => {
+                const genPassword = CryptoJS.AES.encrypt(newPassword, SECREATE_KEY).toString()
+                connected.query(update, [genPassword, result[0]['uuid']], (error) => {
                     if (error) return SendError(res, 404, EMessage.ErrorUpdate, error);
-                    return SendSuccess(res,SMessage.Update);
+                    return SendSuccess(res, SMessage.Update);
                 })
             });
 
@@ -105,7 +106,7 @@ export default class AuthController {
                 }
                 const data = {
                     id: result[0]['uuid']
-                }
+                };
                 //generate token
                 const token = await GenerateToken(data);
                 // const newData = Object.assign(
@@ -118,6 +119,17 @@ export default class AuthController {
                 }
                 return SendSuccess(res, SMessage.Login, newdata);
             });
+        } catch (error) {
+            return SendError(res, 500, EMessage.ServerError, error);
+        }
+    }
+    static async refreshToken(req, res) {
+        try {
+            const { refreshToken } = req.body;
+            if (!refreshToken) return SendError400(res, EMessage.BadRequest + "refreshToken");
+            const verify = await VerifyRefreshToken(refreshToken);
+            if (!verify) return SendError(res, 404, EMessage.NotFound);
+            return SendSuccess(res, SMessage.Update, verify);
         } catch (error) {
             return SendError(res, 500, EMessage.ServerError, error);
         }
