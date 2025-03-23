@@ -14,9 +14,9 @@ import fileUpload from "express-fileupload";
 const app = express();
 app.use(cors());
 app.use(fileUpload());
-app.use(bodyParser.json({ extended: true,limit: '500mb' }))
+app.use(bodyParser.json({ extended: true, limit: '500mb' }))
 app.use(bodyParser.urlencoded({ extended: true, parameterLimit: 500, limit: '500mb' }));
-app.use("/api",router);
+app.use("/api", router);
 app.listen(PORT, () => {
     console.log(`Server runnint on http://localhost:${PORT}`);
 })

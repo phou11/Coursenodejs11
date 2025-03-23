@@ -3,6 +3,38 @@ import { SECREATE_KEY, SECREATE_KEY_REFRESH } from "../config/globalkey.js";
 import CryptoJS from "crypto-js";
 import connected from "../config/db.js";
 import { EMessage } from "./message.js";
+export const FindOneUser = async (uuid) => {
+    return new Promise(async (resovle, reject) => {
+        try {
+            const checkuser = "Select * from user where uuid=?";
+            connected.query(checkuser, uuid, (err, result) => {
+                if (err) reject(err);
+                if (!resovle[0]) {
+                    resovle(EMessage.NotFound)
+                };
+                resovle(result[0]);
+            });
+        } catch (error) {
+            return reject(error);
+        }
+    });
+};
+export const FindOneOrder = async (oUuid) => {
+    return new Promise(async (resovle, reject) => {
+        try {
+            const checkorder = "Select * from tb_order where oUuid=?";
+            connected.query(checkorder, oUuid, (err, result) => {
+                if (err) reject(err);
+                if (!resovle[0]) {
+                    resovle(EMessage.NotFound)
+                };
+                resovle(result[0]);
+            });
+        } catch (error) {
+            return reject(error);
+        }
+    });
+};
 export const checkEmail = async (email) => {
     return new Promise(async (resovle, reject) => {
         try {
