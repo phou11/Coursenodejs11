@@ -6,6 +6,7 @@ import CategoryController from "../controller/category.controller.js";
 import ProductController from "../controller/product.controller.js";
 import AddressController from "../controller/address.controller.js";
 import orderController from "../controller/order.controller.js";
+import OrderDetailController from "../controller/orderDetail.controller.js";
 const router = express.Router();
 //---------auth--------
 router.get("/user/getAll", auth, AuthController.getAll);
@@ -50,4 +51,11 @@ router.post("/order/getBystatus/:userID",auth, orderController.getByStatus);
 router.put("/order/updatestatus/:oUuid", auth, orderController.UpdateOrderStatus);
 router.put("/order/update/:oUuid", auth, orderController.UpdateOrder);
 router.delete("/order/delete/:oUuid", auth, orderController.deleteOrder);
+//---------order_detail--------
+router.post("/orderDetail/insert", auth, OrderDetailController.insert);
+router.get("/orderDetail/getAll", auth,OrderDetailController.getAll);
+router.get("/orderDetail/getOne/:ordUuid",auth, OrderDetailController.getOne);
+router.get("/orderDetail/getBy/:orderID",auth, OrderDetailController.getBy);
+router.put("/orderDetail/update/:ordUuid", auth, OrderDetailController.UpdateOrderDetail);
+router.delete("/orderDetail/delete/:ordUuid", auth, OrderDetailController.deleteOrderDetail);
 export default router;
