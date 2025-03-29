@@ -1,19 +1,42 @@
+// import mysql from "mysql";
+// const connected = mysql.createPool({
+//     // connectionLimit: 50,
+//     host:"localhost",
+//     // queueLimit: 0,
+//     // waitForConnections: true,
+//     user:"root",
+//     // password:PASSWORD_DATABASE,
+//     // port:PORT_DATABASE,
+//     database:"CourseNodejsDB11",
+//     timezone:'z'
+// });
+
+// connected.getConnection((err) => {
+//     if (err) throw err
+//     console.log(`Connected Database`);
+// })
+
+// export default connected
+
 import mysql from "mysql";
+import { URL_DATABASE, PASSWORD_DATABASE, PORT_DATABASE, USER_DATABASE, DATABASE_NAME } from "./globalkey.js";
 const connected = mysql.createPool({
-    // connectionLimit: 50,
-    host:"localhost",
-    // queueLimit: 0,
-    // waitForConnections: true,
-    user:"root",
-    // password:PASSWORD_DATABASE,
-    // port:PORT_DATABASE,
-    database:"CourseNodejsDB11",
-    timezone:'z'
+    connectionLimit: 50,
+    host: `mysql-194632-0.cloudclusters.net`,
+    queueLimit: 0,
+    waitForConnections: true,
+    user: `admin`,
+    password: `HNjAJ4AH`,
+    port: `10128`,
+    database: `CourseNodejsDB11`,
+    timezone: 'z'
 });
 
 connected.getConnection((err) => {
     if (err) throw err
     console.log(`Connected Database`);
-})
 
-export default connected
+
+});
+
+export default connected;

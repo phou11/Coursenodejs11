@@ -1,5 +1,4 @@
 import jwt, { decode } from "jsonwebtoken";
-import { SECREATE_KEY, SECREATE_KEY_REFRESH } from "../config/globalkey.js";
 import CryptoJS from "crypto-js";
 import connected from "../config/db.js";
 import { EMessage } from "./message.js";
@@ -86,9 +85,8 @@ export const VerifyRefreshToken = async (refresh) => {
         try {
             jwt.verify(refresh, SECREATE_KEY_REFRESH.toString(), async (err, decode) => {
                 if (err) return reject(err);
-                const decrypt = CryptoJS.AES.decrypt(decode.id, SECREATE_KEY_REFRESH).toString(
+                const decrypt = CryptoJS.AES.decrypt(decode.id, SECREATE_KEY_REFRESH).toString
                     CryptoJS.enc.Utf8
-                );
                 const checkUuid = "Select * from user where uuid=?";
                 connected.query(checkUuid, decrypt, async (error, result) => {
                     if (error) return reject(error);
@@ -112,9 +110,8 @@ export const VerifyToken = async (token) => {
         try {
             jwt.verify(token, SECREATE_KEY.toString(), async (err, decode) => {
                 if (err) return reject(err);
-                const decrypt = CryptoJS.AES.decrypt(decode.id, SECREATE_KEY).toString(
+                const decrypt = CryptoJS.AES.decrypt(decode.id, SECREATE_KEY).toString
                     CryptoJS.enc.Utf8
-                );
                 const checkUuid = "Select * from user where uuid=?";
                 connected.query(checkUuid, decrypt, (error, result) => {
                     if (error) return reject(error);
