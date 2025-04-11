@@ -22,12 +22,12 @@ import mysql from "mysql";
 import { URL_DATABASE, PASSWORD_DATABASE, PORT_DATABASE, USER_DATABASE, DATABASE_NAME } from "./globalkey.js";
 const connected = mysql.createPool({
     connectionLimit: 50,
-    host: `mysql-194632-0.cloudclusters.net`,
+    host: `mysql-195488-0.cloudclusters.net`,
     queueLimit: 0,
     waitForConnections: true,
     user: `admin`,
-    password: `HNjAJ4AH`,
-    port: `10128`,
+    password: `vH8WhQiM`,
+    port: `10007`,
     database: `CourseNodejsDB11`,
     timezone: 'z'
 });
