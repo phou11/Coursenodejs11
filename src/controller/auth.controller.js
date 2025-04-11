@@ -4,7 +4,7 @@ import { EMessage, ROLE, SMessage } from "../service/message.js";
 import { ValidateData } from "../service/validate.js";
 import CryptoJS from "crypto-js";
 import { v4 as uuidv4 } from "uuid";
-import { SECREATE_KEY } from "../config/globalkey.js";
+import { SECREAT_KEY,SECREAT_KEY_REFRES } from "../config/globalkey.js";
 import { GenerateToken, VerifyRefreshToken } from "../service/service.js";
 export default class AuthController {
     static async getAll(req, res) {
@@ -44,7 +44,7 @@ export default class AuthController {
             connected.query(checkEmail, email, (err, result) => {
                 if (err) return SendError(res, 404, EMessage.NotFound + "email", err);
                 if (!result[0]) return SendError400(res, 404, EMessage.NotFound + "email");
-                const genpassword = CryptoJS.AES.encrypt(newPassword, SECREATE_KEY).toString();
+                const genpassword = CryptoJS.AES.encrypt(newPassword, SECREAT_KEY).toString();
                 const update = "Update user set password=? where uuid=?";
                 connected.query(update, [genpassword, result[0]['uuid']], (error, data) => {
                     if (error) return SendError(res, EMessage.NotFound, error);
@@ -74,7 +74,7 @@ export default class AuthController {
                     return SendError(res, 404, EMessage.IsMatch)
                 }
                 const update = "update user set password=? where uuid=?";
-                const genPassword = CryptoJS.AES.encrypt(newPassword, SECREATE_KEY).toString()
+                const genPassword = CryptoJS.AES.encrypt(newPassword, SECREAT_KEY).toString()
                 connected.query(update, [genPassword, result[0]['uuid']], (error) => {
                     if (error) return SendError(res, 404, EMessage.ErrorUpdate, error);
                     return SendSuccess(res, SMessage.Update);
@@ -99,7 +99,7 @@ export default class AuthController {
                 //ທອດລະຫັດ ແລະ ປຽບທຽບລະຫັດຜ່ານ
                 const decryptPassword = CryptoJS.AES.decrypt(
                     result[0]["password"],
-                    SECREATE_KEY
+                    SECREAT_KEY
                 ).toString(CryptoJS.enc.Utf8);
                 if (decryptPassword != password) {
                     return SendError(res, 404, EMessage.IsMatch);
@@ -152,7 +152,7 @@ export default class AuthController {
                     .toISOString()
                     .replace(/T/, " ")
                     .replace(/\..+/, " ");
-                const genpassword = CryptoJS.AES.encrypt(password, SECREATE_KEY).toString();
+                const genpassword = CryptoJS.AES.encrypt(password, SECREAT_KEY).toString();
                 //SQL QUERY ການສ້າງ insert into table user
                 const insert = `INSERT INTO user(uuid,username,phoneNumber,email,password,role,createdAt,updatedAt) VALUES(?,?,?,?,?,?,?,?)`;
                 connected.query(
